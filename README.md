@@ -44,7 +44,7 @@ _Backend_
 - [ ] Configurar GIN framework
 - [x] Criar package `utils`
 - [x] Criar package `types`
-- [ ] Criar packages `services`
-- [ ] Criar rota de teste `/healthz` [GET]
+- [x] Criar packages `services`
+- [x] Criar rota de teste `/healthz` [GET]
 - [ ] Criar `Makefile`
 - [ ] Criar `dockerfile`
