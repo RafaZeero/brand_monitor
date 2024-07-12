@@ -38,4 +38,13 @@ Para um desafio adicional, considere implementar as seguintes funcionalidades:
 ## Roadmap
 
 __TODOs__:
-- [] TODO 1
+
+_Backend_
+
+- [ ] Configurar GIN framework
+- [ ] Criar package `utils`
+- [ ] Criar package `types`
+- [ ] Criar packages `services`
+- [ ] Criar rota de teste `/healthz` [GET]
+- [ ] Criar `Makefile`
+- [ ] Criar `dockerfile`
