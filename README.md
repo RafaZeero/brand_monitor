@@ -43,7 +43,7 @@ _Backend_
 
 - [ ] Configurar GIN framework
 - [x] Criar package `utils`
-- [ ] Criar package `types`
+- [x] Criar package `types`
 - [ ] Criar packages `services`
 - [ ] Criar rota de teste `/healthz` [GET]
 - [ ] Criar `Makefile`
