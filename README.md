@@ -42,7 +42,7 @@ __TODOs__:
 _Backend_
 
 - [ ] Configurar GIN framework
-- [ ] Criar package `utils`
+- [x] Criar package `utils`
 - [ ] Criar package `types`
 - [ ] Criar packages `services`
 - [ ] Criar rota de teste `/healthz` [GET]
