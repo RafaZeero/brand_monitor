@@ -18,14 +18,7 @@ __Requisitos__:
 6. Deploy: A aplicação deve estar hospedada em um servidor acessível e o código deve estar disponível em um repositório público no GitHub.
 7. Apresentação: Após a entrega do repositório, haverá uma sessão de revisão (Sprint Review) para demonstrar a funcionalidade entregue e em funcionamento.
 
-__Avaliação__:
-1. Compreensão do Desafio: Sua capacidade de entender e abordar os objetivos propostos.
-2. Solução Proposta: Avaliação da solução apresentada em relação ao cumprimento dos objetivos dentro do prazo estipulado.
-3. Qualidade do Código e Documentação: Clareza, organização e documentação do código entregue.
-4. Comunicação: Habilidade de comunicar o progresso e os itens entregues durante a revisão (commits, e apresentação do projeto).
-
-__Prazo__:
-O prazo para a entrega ficou combinado para o dia __17 de julho de 2024__.
+__Prazo__: __17 de julho de 2024__.
 
 __Desafio Extra__ (_Opcional_):
 Para um desafio adicional, considere implementar as seguintes funcionalidades:
@@ -47,4 +40,12 @@ _Backend_
 - [x] Criar packages `services`
 - [x] Criar rota de teste `/healthz` [GET]
 - [x] Criar `Makefile`
-- [ ] Criar `dockerfile`
+- [x] Criar `dockerfile`
+
+_Frontend_
+
+- [x] Configurar React framework
+- [x] Instalar dependências
+- [x] Adicionar componentes
+- [x] Adicionar páginas
+- [x] Criar `dockerfile`

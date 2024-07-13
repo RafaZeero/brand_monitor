@@ -1,0 +1,196 @@
+@tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+
+  @layer base {
+    :root {
+      --header: 60px;
+      
+      --background: 0 0% 100%;
+      --foreground: 222.2 84% 4.9%;
+
+      --card: 0 0% 100%;
+      --card-foreground: 222.2 84% 4.9%;
+
+      --popover: 0 0% 100%;
+      --popover-foreground: 222.2 84% 4.9%;
+
+      --primary: 222.2 47.4% 11.2%;
+      --primary-foreground: 210 40% 98%;
+
+      --secondary: 210 40% 96.1%;
+      --secondary-foreground: 222.2 47.4% 11.2%;
+
+      --muted: 210 40% 96.1%;
+      --muted-foreground: 215.4 16.3% 46.9%;
+
+      --accent: 210 40% 96.1%;
+      --accent-foreground: 222.2 47.4% 11.2%;
+
+      --destructive: 0 84.2% 60.2%;
+      --destructive-foreground: 210 40% 98%;
+
+      --border: 214.3 31.8% 91.4%;
+      --input: 214.3 31.8% 91.4%;
+      --ring: 222.2 84% 4.9%;
+
+      --radius: 0.5rem;
+
+      /* Ultramarine Blue */
+		--ultramarine-blue-3355ff: #35f;
+		--ultramarine-blue-4462ff: #4462ff;
+		--ultramarine-blue-5c77ff: #5c77ff;
+		--ultramarine-blue-8599ff: #8599ff;
+		--ultramarine-blue-adbbff: #adbbff;
+	
+		/* Platinum White */
+		--platinum-white-c9c9c9: #c9c9c9;
+		--platinum-white-e1e1e1: #e1e1e1;
+		--platinum-white-f0f0f0: #f0f0f0;
+		--platinum-white-f5f5f5: #f5f5f5;
+		--platinum-white-fafafa: #fafafa;
+	
+		/* Eeire Black */
+		--eeire-black-161517: #161517;
+		--eeire-black-1c1c1e: #1c1c1e;
+		--eeire-black-28282a: #28282a;
+		--eeire-black-464649: #464649;
+		--eeire-black-5a5a5e: #5a5a5e;
+	
+		/* Black Mamba */
+		--black-mamba-100f11: #100f11;
+	
+		/* Palet Violet */
+		--palet-violet-b899ff: #b899ff;
+		--palet-violet-c6adff: #c6adff;
+		--palet-violet-d4c2ff: #d4c2ff;
+		--palet-violet-e2d6ff: #e2d6ff;
+		--palet-violet-f1ebff: #f1ebff;
+	
+		/* Fresh Air */
+		--fresh-air-99d5ff: #99d5ff;
+		--fresh-air-adddff: #adddff;
+		--fresh-air-c2e5ff: #c2e5ff;
+		--fresh-air-d6edff: #d6edff;
+		--fresh-air-ebf6ff: #ebf6ff;
+	
+		/* Royal Orange */
+		--royal-orange-ff8b1f: #ff8b1f;
+		--royal-orange-ff9f47: #ff9f47;
+		--royal-orange-ffab5c: #ffab5c;
+		--royal-orange-ffc085: #ffc085;
+		--royal-orange-ffd5ad: #ffd5ad;
+	
+		/* Mid Aquamarine */
+		--mid-aquamarine-1fff80: #1fff80;
+		--mid-aquamarine-70ffae: #70ffae;
+		--mid-aquamarine-85ffba: #85ffba;
+		--mid-aquamarine-adffd1: #adffd1;
+		--mid-aquamarine-d6ffe8: #d6ffe8;
+	
+		/* Red */
+		--red-f34236: #f34236;
+		--red-ff4a3e: #ff4a3e;
+		--red-ff5e53: #ff5e53;
+		--red-ff776e: #ff776e;
+		--red-ff9993: #ff9993;
+    }
+
+    .dark {
+      --background: 222.2 84% 4.9%; /* hsl(222.2 84% 4.9%) */
+      --foreground: 210 40% 98%; /* hsl(210 40% 98%) */
+
+      --card: 222.2 84% 4.9%;
+      --card-foreground: 210 40% 98%;
+
+      --popover: 222.2 84% 4.9%;
+      --popover-foreground: 210 40% 98%;
+
+      --primary: 210 40% 98%;
+      --primary-foreground: 222.2 47.4% 11.2%;
+
+      --secondary: 217.2 32.6% 17.5%;
+      --secondary-foreground: 210 40% 98%;
+
+      --muted: 217.2 32.6% 17.5%;
+      --muted-foreground: 215 20.2% 65.1%;
+
+      --accent: 217.2 32.6% 17.5%;
+      --accent-foreground: 210 40% 98%;
+
+      --destructive: 0 62.8% 30.6%;
+      --destructive-foreground: 210 40% 98%;
+
+      --border: 217.2 32.6% 17.5%;
+      --input: 217.2 32.6% 17.5%;
+      --ring: 212.7 26.8% 83.9%;
+
+       /* Ultramarine Blue */
+		--ultramarine-blue-3355ff: #35f;
+		--ultramarine-blue-4462ff: #4462ff;
+		--ultramarine-blue-5c77ff: #5c77ff;
+		--ultramarine-blue-8599ff: #8599ff;
+		--ultramarine-blue-adbbff: #adbbff;
+	
+		/* Platinum White */
+		--platinum-white-c9c9c9: #c9c9c9;
+		--platinum-white-e1e1e1: #e1e1e1;
+		--platinum-white-f0f0f0: #f0f0f0;
+		--platinum-white-f5f5f5: #f5f5f5;
+		--platinum-white-fafafa: #fafafa;
+	
+		/* Eeire Black */
+		--eeire-black-161517: #161517;
+		--eeire-black-1c1c1e: #1c1c1e;
+		--eeire-black-28282a: #28282a;
+		--eeire-black-464649: #464649;
+		--eeire-black-5a5a5e: #5a5a5e;
+	
+		/* Black Mamba */
+		--black-mamba-100f11: #100f11;
+	
+		/* Palet Violet */
+		--palet-violet-b899ff: #b899ff;
+		--palet-violet-c6adff: #c6adff;
+		--palet-violet-d4c2ff: #d4c2ff;
+		--palet-violet-e2d6ff: #e2d6ff;
+		--palet-violet-f1ebff: #f1ebff;
+	
+		/* Fresh Air */
+		--fresh-air-99d5ff: #99d5ff;
+		--fresh-air-adddff: #adddff;
+		--fresh-air-c2e5ff: #c2e5ff;
+		--fresh-air-d6edff: #d6edff;
+		--fresh-air-ebf6ff: #ebf6ff;
+	
+		/* Royal Orange */
+		--royal-orange-ff8b1f: #ff8b1f;
+		--royal-orange-ff9f47: #ff9f47;
+		--royal-orange-ffab5c: #ffab5c;
+		--royal-orange-ffc085: #ffc085;
+		--royal-orange-ffd5ad: #ffd5ad;
+	
+		/* Mid Aquamarine */
+		--mid-aquamarine-1fff80: #1fff80;
+		--mid-aquamarine-70ffae: #70ffae;
+		--mid-aquamarine-85ffba: #85ffba;
+		--mid-aquamarine-adffd1: #adffd1;
+		--mid-aquamarine-d6ffe8: #d6ffe8;
+	
+		/* Red */
+		--red-f34236: #f34236;
+		--red-ff4a3e: #ff4a3e;
+		--red-ff5e53: #ff5e53;
+		--red-ff776e: #ff776e;
+		--red-ff9993: #ff9993;
+    }
+  }
+
+  @layer base {
+    * {
+      @apply border-border;
+    }
+    body {
+      @apply bg-background text-foreground;
+    }
+  }
