@@ -45,8 +45,6 @@ export const HomePage = () => {
 
   return (
     <div>
-      <h1>HomePage</h1>
-
       <p className='inline-flex text-center align-middle items-center gap-[8px]'>
         Api status: {isLoading ? '' : showStatus()}
       </p>

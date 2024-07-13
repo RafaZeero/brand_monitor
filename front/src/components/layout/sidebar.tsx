@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { ActivityIcon, HomeIcon } from 'lucide-react';
+import { ActivityIcon, HomeIcon, WholeWord } from 'lucide-react';
 import { ReactNode } from 'react';
 import { PROJECT_FULL_NAME } from '@/config';
 
@@ -19,6 +19,10 @@ export const Sidebar = () => {
             <NavigationLink to='/'>
               <HomeIcon className='h-4 w-4' />
               Página principal
+            </NavigationLink>
+            <NavigationLink to='/register-term'>
+              <WholeWord className='h-4 w-4' />
+              Cadastrar Termo
             </NavigationLink>
           </nav>
         </div>
