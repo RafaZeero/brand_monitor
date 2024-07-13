@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 
+	googlesearch "github.com/RafaZeero/brand_monitor/services/google-search"
 	"github.com/RafaZeero/brand_monitor/services/healthz"
 	"github.com/RafaZeero/brand_monitor/utils"
 	"github.com/gin-contrib/cors"
@@ -60,10 +61,12 @@ func (s *ApiServer) Run() error {
 
 func RegisterRoutes(r *gin.Engine) {
 	healthzHandler := healthz.NewHandler()
+	searchHandler := googlesearch.NewHandler()
 
 	v1 := r.Group("/v1")
 	{
 		healthzHandler.RegisterRoutes(v1)
+		searchHandler.RegisterRoutes(v1)
 		// others routes...
 	}
 
