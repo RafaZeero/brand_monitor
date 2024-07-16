@@ -10,15 +10,17 @@ import (
 	"github.com/RafaZeero/brand_monitor/utils"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/zap"
 )
 
 type ApiServer struct {
 	addr string
+	db   *mongo.Client
 }
 
-func NewApiServer(addr string) *ApiServer {
-	return &ApiServer{addr: addr}
+func NewApiServer(addr string, db *mongo.Client) *ApiServer {
+	return &ApiServer{addr: addr, db: db}
 }
 
 func (s *ApiServer) Run() error {
@@ -40,7 +42,7 @@ func (s *ApiServer) Run() error {
 	r.Use(gin.Logger())
 
 	// Routes
-	RegisterRoutes(r)
+	s.RegisterRoutes(r)
 
 	// Server config
 	srv := &http.Server{
@@ -59,8 +61,10 @@ func (s *ApiServer) Run() error {
 	return srv.ListenAndServe()
 }
 
-func RegisterRoutes(r *gin.Engine) {
-	healthzHandler := healthz.NewHandler()
+func (s *ApiServer) RegisterRoutes(r *gin.Engine) {
+	healthzStore := healthz.NewStore(s.db)
+	healthzHandler := healthz.NewHandler(healthzStore)
+
 	searchHandler := googlesearch.NewHandler()
 
 	v1 := r.Group("/v1")

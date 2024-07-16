@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"path/filepath"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -39,14 +38,9 @@ func RespondWithError(ctx *gin.Context, code int, msg string) {
 }
 
 func EnvOrFatal(key string) string {
-	// get root dir
-	rootDir := getRootDir()
-
-	envPath := filepath.Join(rootDir, "/back/.env")
-
 	// load .env file
-	if err := godotenv.Load(envPath); err != nil {
-		panic(fmt.Sprintf("Error loading .env file - path: %s", envPath))
+	if err := godotenv.Load(".env"); err != nil {
+		panic(fmt.Sprintf("Error loading .env file: %v", err))
 	}
 
 	value := os.Getenv(key)
@@ -55,28 +49,4 @@ func EnvOrFatal(key string) string {
 	}
 
 	return value
-}
-
-func getRootDir() string {
-	// get the current working directory
-	cwd, err := os.Getwd()
-	if err != nil {
-		panic(err)
-	}
-
-	// search for the root directory by looking for the .git folder
-	for {
-		if _, err := os.Stat(filepath.Join(cwd, ".git")); err == nil {
-			// found the .git folder, return this directory as the root
-			return cwd
-		}
-
-		// move to the parent directory
-		parent := filepath.Dir(cwd)
-		if parent == cwd {
-			// reached the root without finding .git folder, return current directory
-			return cwd
-		}
-		cwd = parent
-	}
 }

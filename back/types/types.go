@@ -143,3 +143,7 @@ type CustomSearchResponse struct {
 	} `json:"spelling"`
 	Items []interface{} `json:"items"`
 }
+
+type TestStore interface {
+	Ping() error
+}
