@@ -1,9 +1,6 @@
 package googlesearch
 
 import (
-	"encoding/json"
-	"fmt"
-	"io"
 	"net/http"
 
 	"github.com/RafaZeero/brand_monitor/types"
@@ -20,10 +17,11 @@ func NewHandler(store types.SearchStore) *Handler {
 }
 
 func (h *Handler) RegisterRoutes(r *gin.RouterGroup) {
-	r.GET("/search", h.handleGetSearch)
+	r.POST("/search", h.handleCreateSearch)
+	r.GET("/search", h.handleGetSearches)
 }
 
-func (h *Handler) handleGetSearch(ctx *gin.Context) {
+func (h *Handler) handleCreateSearch(ctx *gin.Context) {
 	type SearchItems struct {
 		Items []string `json:"items"`
 	}
@@ -53,7 +51,7 @@ func (h *Handler) handleGetSearch(ctx *gin.Context) {
 		competitors := func() []string {
 			competitors := []string{}
 			for _, i := range res.Items {
-				competitors = append(competitors, i.Title)
+				competitors = append(competitors, i.DisplayLink)
 			}
 			return competitors
 		}()
@@ -72,37 +70,14 @@ func (h *Handler) handleGetSearch(ctx *gin.Context) {
 	})
 }
 
-func SearchFor(query string) (*types.GoogleSearchApiResponse, error) {
-	url := fmt.Sprintf(
-		"https://www.googleapis.com/customsearch/v1?key=%s&cx=%s&q=%s",
-		utils.EnvOrFatal("GOOGLE_API_KEY"),
-		utils.EnvOrFatal("GOOGLE_CX"),
-		query,
-	)
-	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodGet, url, nil)
+func (h *Handler) handleGetSearches(ctx *gin.Context) {
+	searches, err := h.store.GetSearches(ctx)
 	if err != nil {
-		return nil, err
+		utils.RespondWithError(ctx, http.StatusInternalServerError, err.Error())
+		return
 	}
-
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Accept", "application/json")
-
-	res, err := client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer res.Body.Close()
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	var data types.GoogleSearchApiResponse
-	if err = json.Unmarshal(body, &data); err != nil {
-		return nil, err
-	}
-
-	return &data, nil
+	utils.RespondWithJSON(ctx, http.StatusOK, types.ApiResponse{
+		Success: true,
+		Data:    searches,
+	})
 }

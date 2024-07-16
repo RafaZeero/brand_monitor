@@ -176,10 +176,10 @@ type Items struct {
 
 type Search struct {
 	// User        primitive.ObjectID `bson:"user_id"`
-	ID          primitive.ObjectID `bson:"_id"`
-	Term        string             `bson:"term"`
-	Competitors []string           `bson:"competitors"`
-	CreatedAt   time.Time          `bson:"created_at"`
+	ID          primitive.ObjectID `bson:"_id"         json:"id"`
+	Term        string             `bson:"term"        json:"term"`
+	Competitors []string           `bson:"competitors" json:"competitors"`
+	CreatedAt   time.Time          `bson:"created_at"  json:"created_at"`
 }
 
 type SearchStore interface {
