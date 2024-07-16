@@ -11,42 +11,60 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type Handler struct{}
+type Handler struct {
+	store types.SearchStore
+}
 
-func NewHandler() *Handler {
-	return &Handler{}
+func NewHandler(store types.SearchStore) *Handler {
+	return &Handler{store: store}
 }
 
 func (h *Handler) RegisterRoutes(r *gin.RouterGroup) {
-	r.GET("/search", h.handleGetQuery)
+	r.GET("/search", h.handleGetSearch)
 }
 
-func (controllers *Handler) handleGetQuery(ctx *gin.Context) {
-	type SearchData struct {
+func (h *Handler) handleGetSearch(ctx *gin.Context) {
+	type SearchItems struct {
 		Items []string `json:"items"`
 	}
 
-	var searchData *SearchData
-	if err := ctx.BindJSON(&searchData); err != nil {
+	var searchItems *SearchItems
+	if err := ctx.BindJSON(&searchItems); err != nil {
 		utils.RespondWithError(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	if len(searchData.Items) == 0 {
+	if len(searchItems.Items) == 0 {
 		utils.RespondWithError(ctx, http.StatusOK, "Empty query")
 		return
 	}
 
-	data := make([]*types.CustomSearchResponse, 0)
+	data := make([]*types.GoogleSearchApiResponse, 0)
 
-	for _, item := range searchData.Items {
-		gRes, err := SearchFor(item)
+	for _, item := range searchItems.Items {
+		res, err := SearchFor(item)
 		if err != nil {
 			utils.RespondWithError(ctx, http.StatusInternalServerError, err.Error())
 			return
 		}
 
-		data = append(data, gRes)
+		data = append(data, res)
+
+		competitors := func() []string {
+			competitors := []string{}
+			for _, i := range res.Items {
+				competitors = append(competitors, i.Title)
+			}
+			return competitors
+		}()
+
+		if err := h.store.CreateSearch(ctx, &types.CreateSearchPayload{
+			Term:        item,
+			Competitors: competitors,
+		}); err != nil {
+			utils.RespondWithError(ctx, http.StatusInternalServerError, err.Error())
+			return
+		}
 	}
 	utils.RespondWithJSON(ctx, http.StatusOK, types.ApiResponse{
 		Success: true,
@@ -54,7 +72,7 @@ func (controllers *Handler) handleGetQuery(ctx *gin.Context) {
 	})
 }
 
-func SearchFor(query string) (*types.CustomSearchResponse, error) {
+func SearchFor(query string) (*types.GoogleSearchApiResponse, error) {
 	url := fmt.Sprintf(
 		"https://www.googleapis.com/customsearch/v1?key=%s&cx=%s&q=%s",
 		utils.EnvOrFatal("GOOGLE_API_KEY"),
@@ -81,7 +99,7 @@ func SearchFor(query string) (*types.CustomSearchResponse, error) {
 		return nil, err
 	}
 
-	var data types.CustomSearchResponse
+	var data types.GoogleSearchApiResponse
 	if err = json.Unmarshal(body, &data); err != nil {
 		return nil, err
 	}

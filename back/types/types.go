@@ -13,7 +13,7 @@ type ApiResponse struct {
 	Data    any    `json:"data,omitempty"`
 }
 
-type CustomSearchResponse struct {
+type GoogleSearchApiResponse struct {
 	Kind string `json:"kind"`
 	URL  struct {
 		Type     string `json:"type"`
@@ -148,7 +148,44 @@ type CustomSearchResponse struct {
 		CorrectedQuery     string `json:"correctedQuery"`
 		HTMLCorrectedQuery string `json:"htmlCorrectedQuery"`
 	} `json:"spelling"`
-	Items []interface{} `json:"items"`
+	Items []Items `json:"items"`
+}
+
+type Items struct {
+	DisplayLink      string `json:"displayLink"`
+	FormattedURL     string `json:"formattedUrl"`
+	HTMLFormattedURL string `json:"htmlFormattedUrl"`
+	HTMLSnippet      string `json:"htmlSnippet"`
+	HTMLTitle        string `json:"htmlTitle"`
+	Kind             string `json:"kind"`
+	Link             string `json:"link"`
+	Pagemap          struct {
+		CseImage []struct {
+			Src string `json:"src"`
+		} `json:"cse_image"`
+		CseThumbnail []struct {
+			Height string `json:"height"`
+			Src    string `json:"src"`
+			Width  string `json:"width"`
+		} `json:"cse_thumbnail"`
+		Metatags []interface{} `json:"metatags"`
+	} `json:"pagemap"`
+	Snippet string `json:"snippet"`
+	Title   string `json:"title"`
+}
+
+type Search struct {
+	// User        primitive.ObjectID `bson:"user_id"`
+	ID          primitive.ObjectID `bson:"_id"`
+	Term        string             `bson:"term"`
+	Competitors []string           `bson:"competitors"`
+	CreatedAt   time.Time          `bson:"created_at"`
+}
+
+type SearchStore interface {
+	CreateSearch(context.Context, *CreateSearchPayload) error
+	GetSearches(context.Context) ([]*Search, error)
+	GetSearchByID(context.Context, primitive.ObjectID) (*Search, error)
 }
 
 type TestAddData struct {
@@ -160,4 +197,9 @@ type TestAddData struct {
 
 type TestStore interface {
 	AddData(context.Context, *TestAddData) error
+}
+
+type CreateSearchPayload struct {
+	Term        string   `json:"term"`
+	Competitors []string `json:"competitors"`
 }

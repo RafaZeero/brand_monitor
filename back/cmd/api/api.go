@@ -16,10 +16,10 @@ import (
 
 type ApiServer struct {
 	addr string
-	db   *mongo.Collection
+	db   *mongo.Client
 }
 
-func NewApiServer(addr string, db *mongo.Collection) *ApiServer {
+func NewApiServer(addr string, db *mongo.Client) *ApiServer {
 	return &ApiServer{addr: addr, db: db}
 }
 
@@ -62,10 +62,11 @@ func (s *ApiServer) Run() error {
 }
 
 func (s *ApiServer) RegisterRoutes(r *gin.Engine) {
-	healthzStore := healthz.NewStore(s.db)
+	healthzStore := healthz.NewStore(s.db.Database("test").Collection("test"))
 	healthzHandler := healthz.NewHandler(healthzStore)
 
-	searchHandler := googlesearch.NewHandler()
+	searchStore := googlesearch.NewStore(s.db.Database("searches").Collection("competitors"))
+	searchHandler := googlesearch.NewHandler(searchStore)
 
 	v1 := r.Group("/v1")
 	{
