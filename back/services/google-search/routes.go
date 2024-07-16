@@ -22,15 +22,35 @@ func (h *Handler) RegisterRoutes(r *gin.RouterGroup) {
 }
 
 func (controllers *Handler) handleGetQuery(ctx *gin.Context) {
-	gRes, err := SearchFor(ctx.Query("query"))
-	if err != nil {
-		utils.RespondWithError(ctx, http.StatusInternalServerError, err.Error())
+	type SearchData struct {
+		Items []string `json:"items"`
+	}
+
+	var searchData *SearchData
+	if err := ctx.BindJSON(&searchData); err != nil {
+		utils.RespondWithError(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
 
+	if len(searchData.Items) == 0 {
+		utils.RespondWithError(ctx, http.StatusOK, "Empty query")
+		return
+	}
+
+	data := make([]*types.CustomSearchResponse, 0)
+
+	for _, item := range searchData.Items {
+		gRes, err := SearchFor(item)
+		if err != nil {
+			utils.RespondWithError(ctx, http.StatusInternalServerError, err.Error())
+			return
+		}
+
+		data = append(data, gRes)
+	}
 	utils.RespondWithJSON(ctx, http.StatusOK, types.ApiResponse{
 		Success: true,
-		Data:    gRes,
+		Data:    data,
 	})
 }
 
