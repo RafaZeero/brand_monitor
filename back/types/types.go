@@ -1,5 +1,12 @@
 package types
 
+import (
+	"context"
+	"time"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
+
 type ApiResponse struct {
 	Success bool   `json:"success"`
 	Error   string `json:"error,omitempty"`
@@ -144,6 +151,13 @@ type CustomSearchResponse struct {
 	Items []interface{} `json:"items"`
 }
 
+type TestAddData struct {
+	ID        primitive.ObjectID `bson:"_id"`
+	Text      string             `bson:"text"`
+	CreatedAt time.Time          `bson:"created_at"`
+	UpdatedAt time.Time          `bson:"updated_at"`
+}
+
 type TestStore interface {
-	Ping() error
+	AddData(context.Context, *TestAddData) error
 }

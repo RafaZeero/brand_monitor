@@ -17,7 +17,9 @@ func main() {
 
 	initStorage(client)
 
-	server := api.NewApiServer("3333", client)
+	collection := client.Database("test").Collection("test")
+
+	server := api.NewApiServer("3333", collection)
 
 	if err := server.Run(); err != nil {
 		log.Fatal(err)

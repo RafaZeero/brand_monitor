@@ -16,10 +16,10 @@ import (
 
 type ApiServer struct {
 	addr string
-	db   *mongo.Client
+	db   *mongo.Collection
 }
 
-func NewApiServer(addr string, db *mongo.Client) *ApiServer {
+func NewApiServer(addr string, db *mongo.Collection) *ApiServer {
 	return &ApiServer{addr: addr, db: db}
 }
 
