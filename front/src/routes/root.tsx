@@ -1,4 +1,5 @@
 import App from '@/App';
+import { FetchTermsPage } from '@/pages/fetch_results';
 import { HomePage } from '@/pages/home';
 import { NotFound } from '@/pages/not_found';
 import { RegisterTermPage } from '@/pages/register_term';
@@ -16,6 +17,10 @@ export const routes = createBrowserRouter([
       {
         path: 'register-term',
         element: <RegisterTermPage />
+      },
+      {
+        path: 'fetch-term',
+        element: <FetchTermsPage />
       }
     ]
   },
