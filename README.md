@@ -1,7 +1,7 @@
 # Teste Brand Monitor
 
 __Objetivo__:  
-Uma marca (a sua escolha) precisa identificar quais concorrentes estão utilizando seus termos de marca em anúncios patrocinados do Google. Para isso, é necessário desenvolver uma aplicação web com uma interface simples (se responsiva melhor ainda) onde o usuário possa:
+Uma marca (a sua escolha) precisa identificar quais concorrentes estão utilizando seus termos de marca em anúncios patrocinados do Google. Para  isso, é necessário desenvolver uma aplicação web com uma interface simples (se responsiva melhor ainda) onde o usuário possa:
 
 1. Cadastrar um ou mais termos de marca.
 2. Fornecer um e-mail corporativo.
@@ -49,3 +49,7 @@ _Frontend_
 - [x] Adicionar componentes
 - [x] Adicionar páginas
 - [x] Criar `dockerfile`
+
+__Database__
+
+- [x] Integrar banco de dados (mongodb)
