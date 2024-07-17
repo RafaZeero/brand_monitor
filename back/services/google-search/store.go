@@ -24,6 +24,7 @@ func (s *Store) CreateSearch(
 ) error {
 	_, err := s.db.InsertOne(context.Background(), &types.Search{
 		ID:          primitive.NewObjectID(),
+		UserEmail:   payload.UserEmail,
 		Term:        payload.Term,
 		Competitors: payload.Competitors,
 		CreatedAt:   time.Now(),
@@ -33,8 +34,12 @@ func (s *Store) CreateSearch(
 
 func (s *Store) GetSearches(
 	ctx context.Context,
+	email string,
 ) ([]*types.Search, error) {
-	cur, err := s.db.Find(ctx, bson.D{{}})
+	cur, err := s.db.Find(ctx, bson.D{{
+		Key:   "user_email",
+		Value: email,
+	}})
 	if err != nil {
 		return nil, err
 	}

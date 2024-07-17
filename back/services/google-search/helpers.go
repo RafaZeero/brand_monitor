@@ -5,17 +5,24 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"regexp"
 
 	"github.com/RafaZeero/brand_monitor/types"
 	"github.com/RafaZeero/brand_monitor/utils"
 )
+
+func replaceSpacesWith(text, replace string) string {
+	re := regexp.MustCompile(`\s+`)
+
+	return re.ReplaceAllString(text, replace)
+}
 
 func SearchFor(query string) (*types.GoogleSearchApiResponse, error) {
 	url := fmt.Sprintf(
 		"https://www.googleapis.com/customsearch/v1?key=%s&cx=%s&q=%s",
 		utils.EnvOrFatal("GOOGLE_API_KEY"),
 		utils.EnvOrFatal("GOOGLE_CX"),
-		query,
+		replaceSpacesWith(query, "+"),
 	)
 	client := &http.Client{}
 	req, err := http.NewRequest(http.MethodGet, url, nil)

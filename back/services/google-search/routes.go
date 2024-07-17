@@ -6,6 +6,7 @@ import (
 	"github.com/RafaZeero/brand_monitor/types"
 	"github.com/RafaZeero/brand_monitor/utils"
 	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type Handler struct {
@@ -23,7 +24,8 @@ func (h *Handler) RegisterRoutes(r *gin.RouterGroup) {
 
 func (h *Handler) handleCreateSearch(ctx *gin.Context) {
 	type SearchItems struct {
-		Items []string `json:"items"`
+		Items []string `json:"items" binding:"required"`
+		Email string   `json:"email" binding:"required"`
 	}
 
 	var searchItems *SearchItems
@@ -37,16 +39,12 @@ func (h *Handler) handleCreateSearch(ctx *gin.Context) {
 		return
 	}
 
-	data := make([]*types.GoogleSearchApiResponse, 0)
-
 	for _, item := range searchItems.Items {
 		res, err := SearchFor(item)
 		if err != nil {
 			utils.RespondWithError(ctx, http.StatusInternalServerError, err.Error())
 			return
 		}
-
-		data = append(data, res)
 
 		competitors := func() []string {
 			competitors := []string{}
@@ -57,6 +55,7 @@ func (h *Handler) handleCreateSearch(ctx *gin.Context) {
 		}()
 
 		if err := h.store.CreateSearch(ctx, &types.CreateSearchPayload{
+			UserEmail:   searchItems.Email,
 			Term:        item,
 			Competitors: competitors,
 		}); err != nil {
@@ -66,13 +65,23 @@ func (h *Handler) handleCreateSearch(ctx *gin.Context) {
 	}
 	utils.RespondWithJSON(ctx, http.StatusOK, types.ApiResponse{
 		Success: true,
-		Data:    data,
+		Message: "Search created successfully!",
 	})
 }
 
 func (h *Handler) handleGetSearches(ctx *gin.Context) {
-	searches, err := h.store.GetSearches(ctx)
+	email := ctx.Query("email")
+	if email == "" {
+		utils.RespondWithError(ctx, http.StatusBadRequest, "Invalid email")
+		return
+	}
+
+	searches, err := h.store.GetSearches(ctx, email)
 	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			utils.RespondWithError(ctx, http.StatusOK, "No searches found for this email")
+			return
+		}
 		utils.RespondWithError(ctx, http.StatusInternalServerError, err.Error())
 		return
 	}
