@@ -11,6 +11,7 @@ type ApiResponse struct {
 	Success bool   `json:"success"`
 	Error   string `json:"error,omitempty"`
 	Data    any    `json:"data,omitempty"`
+	Message string `json:"message,omitempty"`
 }
 
 type GoogleSearchApiResponse struct {
@@ -177,6 +178,7 @@ type Items struct {
 type Search struct {
 	// User        primitive.ObjectID `bson:"user_id"`
 	ID          primitive.ObjectID `bson:"_id"         json:"id"`
+	UserEmail   string             `bson:"user_email"  json:"user_email"`
 	Term        string             `bson:"term"        json:"term"`
 	Competitors []string           `bson:"competitors" json:"competitors"`
 	CreatedAt   time.Time          `bson:"created_at"  json:"created_at"`
@@ -184,7 +186,7 @@ type Search struct {
 
 type SearchStore interface {
 	CreateSearch(context.Context, *CreateSearchPayload) error
-	GetSearches(context.Context) ([]*Search, error)
+	GetSearches(context.Context, string) ([]*Search, error)
 	GetSearchByID(context.Context, primitive.ObjectID) (*Search, error)
 }
 
@@ -200,6 +202,7 @@ type TestStore interface {
 }
 
 type CreateSearchPayload struct {
+	UserEmail   string   `json:"user_email"  validate:"required,email"`
 	Term        string   `json:"term"`
 	Competitors []string `json:"competitors"`
 }
